@@ -13,7 +13,7 @@ select
   '/client/' || client_id as link,
 from clients
 order by total_deals desc
-limit 80
+limit 1000
 ```
 
 <DataTable
