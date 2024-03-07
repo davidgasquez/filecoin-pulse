@@ -15,7 +15,7 @@ select
 from provider_metrics
 group by provider_id, link
 order by 3 desc
-limit 2000
+limit 1000
 ```
 
 <DataTable
