@@ -2,7 +2,7 @@
 title: Filecoin Pulse
 ---
 
-_A quick view into Filecoin State Market Deals Metrics_
+_A quick view into Filecoin Metrics_
 
 ```sql years
 select
@@ -10,11 +10,7 @@ select
 from daily_metrics
 ```
 
-<Dropdown
-  name=year
-    data={years}
-    value=year
->
+<Dropdown name=year data={years} value=year>
   <DropdownOption value="%" valueLabel="All"/>
 </Dropdown>
 
@@ -34,44 +30,35 @@ order by date desc
 <LineChart
   data={daily_metrics}
   y=onboarded_data_tibs
-  title = "Onboarded Data (TiBs)"
+  title = "Daily Onboarded Data (TiBs)"
 />
 
 <LineChart
   data={daily_metrics}
   y=deals
-  title = "Unique onboarded Deals"
+  title = "Daily Deals"
 />
 
 <LineChart
   data={daily_metrics}
-  y=unique_clients
-  title = "Unique Daily Clients"
-/>
-<LineChart
-  data={daily_metrics}
-  y=unique_providers
-  title = "Unique Daily Providers"
+  y={["unique_clients", "unique_providers"]}
+  title = "Daily Unique Users Participating in Deals"
 />
 
----
+## Active Clients
 
-## Top Providers
-
-```sql providers
+```sql active_clients
 select
-  provider_id,
-  '/provider/' || provider_id as link,
-  sum(onboarded_data_tibs) as onboarded_data_tibs
-from provider_metrics
-where extract(year from date) like '${inputs.year}'
-group by provider_id, link
-order by 3 desc
-limit 200
+  *
+from historical_daily_metrics
+where extract(year from day) like '${inputs.year}'
+order by day desc
 ```
 
-<DataTable
-    data={providers}
-    link=link
-    search=true
+<LineChart
+  data={active_clients}
+  y={["active_clients", "active_providers"]}
+  title="Users with Active Deals"
+  labels=true
+  renderer=svg
 />
