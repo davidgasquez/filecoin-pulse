@@ -1,7 +1,7 @@
 with date_series as (
   select
     cast(range as date) as day
-  from range(date '2022-09-12', date '2024-03-05', interval 1 day)
+  from range(date '2020-09-12', date '2024-03-05', interval 1 day)
 ),
 
 active_deals as (
