@@ -13,12 +13,11 @@ select
   '/client/' || client_id as link,
 from clients
 order by total_deals desc
-limit 1000
 ```
 
 <DataTable
     data={providers}
     link=link
     search=true
-    rows=20
+    rows=50
 />
