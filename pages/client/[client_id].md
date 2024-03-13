@@ -1,5 +1,11 @@
 # {$page.params.client_id}
 
+<DateRange
+  name=range
+  data={filtered_client_metrics}
+  dates=date
+/>
+
 ```sql filtered_client
 select
   *
@@ -21,8 +27,20 @@ where client_id = '${params.client_id}'
 
 <BigValue
   data={filtered_client}
-  value=current_datacap
-  title="Current Datacap"
+  value=total_data_uploaded_tibs
+  title="Total Data Uploaded (TiBs)"
+/>
+
+<BigValue
+  data={filtered_client}
+  value=first_deal_at
+  title="First Deal"
+/>
+
+<BigValue
+  data={filtered_client}
+  value=last_deal_at
+  title="Last Deal"
 />
 
 <BigValue
@@ -41,4 +59,42 @@ where client_id = '${params.client_id}'
   data={filtered_client}
   value=total_unique_providers
   title="Total Unique Providers"
+/>
+
+<BigValue
+  data={filtered_client}
+  value=verifier_id
+  title="Verifier"
+/>
+
+<BigValue
+  data={filtered_client}
+  value=industry
+  title="Industry"
+/>
+
+```sql filtered_client_metrics
+select
+  date,
+  provider_id,
+  deals,
+  onboarded_data_tibs
+from interaction_metrics
+where 1=1
+  and client_id = '${params.client_id}'
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+order by date desc, provider_id asc
+```
+
+<DataTable
+  data={filtered_client_metrics}
+/>
+
+## Daily Deals Metrics
+
+<BarChart
+  data={filtered_client_metrics}
+  y=onboarded_data_tibs
+  series=provider_id
+  title="Onboarded Data (TiBs)"
 />

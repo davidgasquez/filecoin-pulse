@@ -18,7 +18,7 @@
     "@evidence-dev/core-components": "^3.4.2",
     "@evidence-dev/csv": "^1.0.7",
     "@evidence-dev/duckdb": "1.0.6",
-    "@evidence-dev/evidence": "^28.0.2"
+    "@evidence-dev/evidence": "^29.0.2"
   },
   "overrides": {
     "jsonwebtoken": "9.0.0",

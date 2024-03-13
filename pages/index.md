@@ -4,40 +4,46 @@ title: Filecoin Pulse
 
 _A quick view into Filecoin Metrics_
 
-```sql years
-select
-  distinct extract(year from date) as year,
-from daily_metrics
-```
-
-<Dropdown name=year data={years} value=year>
-  <DropdownOption value="%" valueLabel="All"/>
-</Dropdown>
+<DateRange
+    name=range
+    data={daily_metrics}
+    dates=date
+/>
 
 
 ```sql daily_metrics
 select
   date,
   onboarded_data_tibs,
+  sum(onboarded_data_tibs) over (order by date) as cumulative_onboarded_data_tibs,
   deals,
   unique_clients,
-  unique_providers
+  unique_providers,
+  active_deals,
+  clients_with_active_deals,
+  providers_with_active_deals
 from daily_metrics
-where extract(year from date) like '${inputs.year}'
+where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
 ```
+
+## Deals
 
 <LineChart
   data={daily_metrics}
   y=onboarded_data_tibs
+  y2=cumulative_onboarded_data_tibs
   title = "Daily Onboarded Data (TiBs)"
 />
 
 <LineChart
   data={daily_metrics}
   y=deals
-  title = "Daily Deals"
+  y2=active_deals
+  title = "Daily New Deals"
 />
+
+## Users
 
 <LineChart
   data={daily_metrics}
@@ -45,20 +51,8 @@ order by date desc
   title = "Daily Unique Users Participating in Deals"
 />
 
-## Active Clients
-
-```sql active_clients
-select
-  *
-from historical_daily_metrics
-where extract(year from day) like '${inputs.year}'
-order by day desc
-```
-
 <LineChart
-  data={active_clients}
-  y={["active_clients", "active_providers"]}
+  data={daily_metrics}
+  y={["clients_with_active_deals", "providers_with_active_deals"]}
   title="Users with Active Deals"
-  labels=true
-  renderer=svg
 />
