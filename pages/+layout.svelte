@@ -10,7 +10,6 @@
     title="Filecoin Pulse"
     fullWidth="false"
     builtWithEvidence="false"
-    xProfile="davidgasquez"
 >
     <slot slot="content" />
 </EvidenceDefaultLayout>
