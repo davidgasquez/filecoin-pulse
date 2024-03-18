@@ -9,6 +9,7 @@ jobs:
     name: Publish to Cloudflare Pages
     env:
         EVIDENCE_SOURCE__database__filename: ${{ secrets.EVIDENCE_SOURCE }}
+        NODE_OPTIONS: "--max-old-space-size=8192"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,7 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: npm run sources && npm run build
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=8192"
+          npm run sources && npm run build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
