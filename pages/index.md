@@ -17,11 +17,14 @@ select
   onboarded_data_tibs,
   sum(onboarded_data_tibs) over (order by date) as cumulative_onboarded_data_tibs,
   deals,
-  unique_clients,
-  unique_providers,
+  unique_deal_making_clients,
+  unique_deal_making_providers,
   active_deals,
   clients_with_active_deals,
-  providers_with_active_deals
+  providers_with_active_deals,
+  raw_power_pibs,
+  quality_adjusted_power_pibs,
+  verified_data_power_pibs
 from daily_metrics
 where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
@@ -47,7 +50,7 @@ order by date desc
 
 <LineChart
   data={daily_metrics}
-  y={["unique_clients", "unique_providers"]}
+  y={["unique_deal_making_clients", "unique_deal_making_providers"]}
   title = "Daily Unique Users Participating in Deals"
 />
 
@@ -55,4 +58,18 @@ order by date desc
   data={daily_metrics}
   y={["clients_with_active_deals", "providers_with_active_deals"]}
   title="Users with Active Deals"
+/>
+
+## Power
+
+<LineChart
+  data={daily_metrics}
+  y={["raw_power_pibs"]}
+  title="Network Raw Power (PiBs)"
+/>
+
+<LineChart
+  data={daily_metrics}
+  y={["quality_adjusted_power_pibs"]}
+  title="Network Quality Adjusted Power (PiBs)"
 />

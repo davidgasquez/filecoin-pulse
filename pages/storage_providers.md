@@ -9,13 +9,18 @@ _A quick view into Filecoin Storage Providers Metrics_
 
 ```sql providers
 select
-  provider_id,
   '/provider/' || provider_id as link,
-  sum(onboarded_data_tibs) as onboarded_data_tibs
-from provider_metrics
-group by provider_id, link
-order by 3 desc
-limit 1000
+  provider_id,
+  total_deals,
+  total_data_uploaded_tibs,
+  score,
+  country,
+  uptime_average,
+  is_reachable,
+  provider_name
+from storage_providers
+order by total_data_uploaded_tibs desc
+limit 300
 ```
 
 <DataTable
