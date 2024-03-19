@@ -14,8 +14,9 @@ _A quick view into Filecoin Metrics_
 ```sql daily_metrics
 select
   date,
-  onboarded_data_tibs,
-  sum(onboarded_data_tibs) over (order by date) as cumulative_onboarded_data_tibs,
+  onboarded_data_pibs,
+  data_on_active_deals_pibs,
+  sum(onboarded_data_pibs) over (order by date) as cumulative_onboarded_data_pibs,
   deals,
   unique_deal_making_clients,
   unique_deal_making_providers,
@@ -24,7 +25,8 @@ select
   providers_with_active_deals,
   raw_power_pibs,
   quality_adjusted_power_pibs,
-  verified_data_power_pibs
+  verified_data_power_pibs,
+  network_utilization
 from daily_metrics
 where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
@@ -34,9 +36,9 @@ order by date desc
 
 <LineChart
   data={daily_metrics}
-  y=onboarded_data_tibs
-  y2=cumulative_onboarded_data_tibs
-  title = "Daily Onboarded Data (TiBs)"
+  y=onboarded_data_pibs
+  y2=cumulative_onboarded_data_pibs
+  title = "Daily Onboarded Data (PiBs)"
 />
 
 <LineChart
@@ -54,6 +56,12 @@ order by date desc
   title = "Daily Unique Users Participating in Deals"
 />
 
+<AreaChart
+  data={daily_metrics}
+  y="data_on_active_deals_pibs"
+  title="Data on Active Deals (PiBs)"
+/>
+
 <LineChart
   data={daily_metrics}
   y={["clients_with_active_deals", "providers_with_active_deals"]}
@@ -62,14 +70,24 @@ order by date desc
 
 ## Power
 
-<LineChart
+<Grid cols=2>
+
+<AreaChart
   data={daily_metrics}
-  y={["raw_power_pibs"]}
+  y="raw_power_pibs"
   title="Network Raw Power (PiBs)"
 />
 
-<LineChart
+<AreaChart
   data={daily_metrics}
   y={["quality_adjusted_power_pibs"]}
   title="Network Quality Adjusted Power (PiBs)"
+/>
+
+</Grid>
+
+<AreaChart
+  data={daily_metrics}
+  y="network_utilization"
+  title="Network Utilization"
 />

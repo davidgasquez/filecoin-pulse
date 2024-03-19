@@ -17,10 +17,10 @@ limit 500
 ```
 
 <DataTable
-    data={clients}
-    link=link
-    search=true
-    rows=20
+  data={clients}
+  link=link
+  search=true
+  rows=20
 />
 
 
