@@ -13,7 +13,7 @@ select
   verified_clients_count,
   '/notary/' || notary_id as link,
 from notaries
-order by current_allowance::bigint desc
+order by verified_clients_count desc
 ```
 
 <DataTable
