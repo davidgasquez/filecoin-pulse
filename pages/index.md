@@ -34,6 +34,8 @@ order by date desc
 
 ## Deals
 
+<Grid cols=2>
+
 <LineChart
   data={daily_metrics}
   y=onboarded_data_pibs
@@ -48,18 +50,20 @@ order by date desc
   title = "Daily New Deals"
 />
 
+</Grid>
+
+<AreaChart
+  data={daily_metrics}
+  y="data_on_active_deals_pibs"
+  title="Data on Active Deals (PiBs)"
+/>
+
 ## Users
 
 <LineChart
   data={daily_metrics}
   y={["unique_deal_making_clients", "unique_deal_making_providers"]}
   title = "Daily Unique Users Participating in Deals"
-/>
-
-<AreaChart
-  data={daily_metrics}
-  y="data_on_active_deals_pibs"
-  title="Data on Active Deals (PiBs)"
 />
 
 <LineChart
@@ -70,12 +74,18 @@ order by date desc
 
 ## Power
 
-<Grid cols=2>
+<Grid cols=3>
 
 <AreaChart
   data={daily_metrics}
   y="raw_power_pibs"
   title="Network Raw Power (PiBs)"
+/>
+
+<AreaChart
+  data={daily_metrics}
+  y={["verified_data_power_pibs"]}
+  title="Network Verified Data Power (PiBs)"
 />
 
 <AreaChart

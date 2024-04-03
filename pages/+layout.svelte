@@ -9,7 +9,8 @@
     {data}
     title="Filecoin Pulse"
     fullWidth="false"
-    builtWithEvidence="false"
+    githubRepo="https://github.com/davidgasquez/filecoin-data-portal/"
+    xProfile="https://twitter.com/davidgasquez/"
 >
     <slot slot="content" />
 </EvidenceDefaultLayout>
