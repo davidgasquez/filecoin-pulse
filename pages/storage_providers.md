@@ -23,10 +23,10 @@ limit 300
 ```
 
 <DataTable
-    data={providers}
-    link=link
-    search=true
-    rows=20
+  data={providers}
+  link=link
+  search=true
+  rows=20
 />
 
 Histogram of Storage Providers current locations.
@@ -41,8 +41,8 @@ group by country
 ```
 
 <BarChart
-    data={providers_by_country}
-    x=country
-    y=providers
-    xAxisTitle=Country
+  data={providers_by_country}
+  x=country
+  y=providers
+  xAxisTitle=Country
 />

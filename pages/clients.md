@@ -13,7 +13,7 @@ select
   '/client/' || client_id as link,
 from database.clients
 order by total_deals desc
-limit 500
+limit 400
 ```
 
 <DataTable
@@ -36,8 +36,8 @@ group by region
 ```
 
 <BarChart
-    data={clients_by_region}
-    x=region
-    y=clients
-    xAxisTitle=Region
+  data={clients_by_region}
+  x=region
+  y=clients
+  xAxisTitle=Region
 />
