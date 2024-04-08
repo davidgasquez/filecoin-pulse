@@ -22,14 +22,14 @@ where notary_id = '${params.notary_id}'
 
 <BigValue
   data={filtered_notary_info}
-  value=initial_allowance
-  title="Initial Allowance"
+  value=initial_allowance_tibs
+  title="Initial Allowance (TiBs)"
 />
 
 <BigValue
   data={filtered_notary_info}
-  value=current_allowance
-  title="Current Allowance"
+  value=current_allowance_tibs
+  title="Current Allowance (TiBs)"
 />
 
 <BigValue
