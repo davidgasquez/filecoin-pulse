@@ -4,40 +4,52 @@ title: Clients
 
 _A quick view into Filecoin Clients Metrics_
 
-```sql clients
+```sql client_stats
+select
+  count(distinct client_id) as total_clients,
+  sum(current_datacap / power(1024, 5)) as total_remaining_datacap_pibs
+from clients
+```
+
+<Grid cols=4>
+
+<BigValue
+  data={client_stats}
+  value=total_clients
+  title="Clients"
+/>
+
+
+<BigValue
+  data={client_stats}
+  value=total_remaining_datacap_pibs
+  title="Total Remaining Datacap"
+  fmt='#,##0 \P\i\B\s'
+/>
+
+</Grid>
+
+```sql clients_table
 select
   client_id,
   client_name,
   region,
-  total_deals,
+  total_active_deals,
+  total_data_uploaded_tibs,
   '/client/' || client_id as link,
 from database.clients
-order by total_deals desc
+order by total_active_deals desc
 limit 400
 ```
 
+## Explorer
+
 <DataTable
-  data={clients}
+  data={clients_table}
   link=link
   search=true
-  rows=20
-/>
-
-
-For clients that report location, this is the distribution of clients by region:
-
-```sql clients_by_region
-select
-  region,
-  count(distinct client_id) as clients
-from clients
-where region is not null
-group by region
-```
-
-<BarChart
-  data={clients_by_region}
-  x=region
-  y=clients
-  xAxisTitle=Region
+  rowShading=true
+  rowLines=false
+  rows=30
+  downloadable=true
 />

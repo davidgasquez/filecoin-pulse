@@ -19,7 +19,7 @@ select
   is_reachable
 from storage_providers
 order by total_data_uploaded_tibs desc
-limit 300
+limit 500
 ```
 
 <DataTable

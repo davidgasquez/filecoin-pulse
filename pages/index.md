@@ -10,7 +10,6 @@ _A quick view into Filecoin Metrics_
   dates=date
 />
 
-
 ```sql daily_metrics
 select
   date,
@@ -34,14 +33,14 @@ select
   quality_adjusted_power_pibs - lag(quality_adjusted_power_pibs, 7) over (order by date) as quality_adjusted_power_pibs_7_day_ago,
   verified_data_power_pibs,
   verified_data_power_pibs - lag(verified_data_power_pibs, 7) over (order by date) as verified_data_power_pibs_7_day_ago,
-  network_utilization,
-  network_utilization - lag(network_utilization, 7) over (order by date) as network_utilization_7_day_ago
+  network_utilization_percentage,
+  network_utilization_percentage - lag(network_utilization_percentage, 7) over (order by date) as network_utilization_percentage_7_day_ago
 from daily_metrics
 where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
 ```
 
-## Numbers
+## Network in Numbers
 
 <Grid cols=4>
 
@@ -108,8 +107,8 @@ order by date desc
 <BigValue
   title="Network Utilization"
   data={daily_metrics}
-  value=network_utilization
-  comparison=network_utilization_7_day_ago
+  value=network_utilization_percentage
+  comparison=network_utilization_percentage_7_day_ago
   comparisonTitle="from last week"
 />
 
@@ -165,7 +164,7 @@ order by date desc
   title="Users with Active Deals"
 />
 
-## Power
+## Storage Power
 
 <Grid cols=3>
 
@@ -195,7 +194,7 @@ order by date desc
 
 <AreaChart
   data={daily_metrics}
-  y="network_utilization"
+  y="network_utilization_percentage"
   title="Network Utilization"
 />
 
