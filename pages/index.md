@@ -2,7 +2,7 @@
 title: Filecoin Pulse
 ---
 
-_A quick view into Filecoin Metrics_
+_A view into Filecoin Metrics. Powered by the [Filecoin Data Portal](https://github.com/davidgasquez/filecoin-data-portal/)._
 
 <DateRange
   name=range
@@ -16,6 +16,8 @@ select
   onboarded_data_pibs,
   data_on_active_deals_pibs,
   data_on_active_deals_pibs - lag(data_on_active_deals_pibs, 7) over (order by date) as data_on_active_deals_pibs_7_day_ago,
+  unique_data_on_active_deals_pibs,
+  unique_data_on_active_deals_pibs - lag(unique_data_on_active_deals_pibs, 7) over (order by date) as unique_data_on_active_deals_pibs_7_day_ago,
   sum(onboarded_data_pibs) over (order by date) as cumulative_onboarded_data_pibs,
   deals,
   sum(deals) over (order by date) as cumulative_deals,
@@ -27,6 +29,10 @@ select
   clients_with_active_deals - lag(clients_with_active_deals, 7) over (order by date) as clients_with_active_deals_7_day_ago,
   providers_with_active_deals,
   providers_with_active_deals - lag(providers_with_active_deals, 7) over (order by date) as providers_with_active_deals_7_day_ago,
+  new_client_ids,
+  new_client_ids - lag(new_client_ids, 7) over (order by date) as new_client_ids_7_day_ago,
+  new_provider_ids,
+  new_provider_ids - lag(new_provider_ids, 7) over (order by date) as new_provider_ids_7_day_ago,
   raw_power_pibs,
   raw_power_pibs - lag(raw_power_pibs, 7) over (order by date) as raw_power_pibs_7_day_ago,
   quality_adjusted_power_pibs,
@@ -42,13 +48,22 @@ order by date desc
 
 ## Network in Numbers
 
-<Grid cols=4>
+<Grid cols=3>
 
 <BigValue
   title="Data on Active Deals"
   data={daily_metrics}
   value=data_on_active_deals_pibs
   comparison=data_on_active_deals_pibs_7_day_ago
+  comparisonTitle="from last week"
+  fmt='#,##0 Pi\B\s'
+/>
+
+<BigValue
+  title="Unique Data on Active Deals"
+  data={daily_metrics}
+  value=unique_data_on_active_deals_pibs
+  comparison=unique_data_on_active_deals_pibs_7_day_ago
   comparisonTitle="from last week"
   fmt='#,##0 Pi\B\s'
 />
@@ -162,6 +177,12 @@ order by date desc
   data={daily_metrics}
   y={["clients_with_active_deals", "providers_with_active_deals"]}
   title="Users with Active Deals"
+/>
+
+<BarChart
+  data={daily_metrics}
+  y={["new_client_ids", "new_provider_ids"]}
+  title="New Users"
 />
 
 ## Storage Power

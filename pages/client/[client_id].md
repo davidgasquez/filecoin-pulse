@@ -13,6 +13,8 @@ from clients
 where client_id = '${params.client_id}'
 ```
 
+<Grid cols=3>
+
 <BigValue
   data={filtered_client}
   value=client_name
@@ -21,8 +23,20 @@ where client_id = '${params.client_id}'
 
 <BigValue
   data={filtered_client}
+  value=current_datacap_tibs
+  title="Current Datacap"
+/>
+
+<BigValue
+  data={filtered_client}
   value=total_deals
   title="Total Deals"
+/>
+
+<BigValue
+  data={filtered_client}
+  value=total_active_deals
+  title="Total Active Deals"
 />
 
 <BigValue
@@ -73,13 +87,15 @@ where client_id = '${params.client_id}'
   title="Industry"
 />
 
+</Grid>
+
 ```sql filtered_client_metrics
 select
   date,
   provider_id,
   deals,
   onboarded_data_tibs
-from interaction_metrics
+from deals_metrics
 where 1=1
   and client_id = '${params.client_id}'
   and date between '${inputs.range.start}' and '${inputs.range.end}'

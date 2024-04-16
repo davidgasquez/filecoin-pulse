@@ -2,21 +2,21 @@
 title: Clients
 ---
 
-_A quick view into Filecoin Clients Metrics_
+_A view into Filecoin Clients Metrics_
 
 ```sql client_stats
 select
   count(distinct client_id) as total_clients,
-  sum(current_datacap / power(1024, 5)) as total_remaining_datacap_pibs
+  sum(current_datacap_tibs) as total_remaining_datacap_pibs
 from clients
 ```
 
-<Grid cols=4>
+<Grid cols=2>
 
 <BigValue
   data={client_stats}
   value=total_clients
-  title="Clients"
+  title="Filecoin Clients"
 />
 
 
@@ -35,10 +35,11 @@ select
   client_name,
   region,
   total_active_deals,
-  total_data_uploaded_tibs,
+  data_uploaded_tibs_30d,
+  total_active_data_uploaded_tibs,
   '/client/' || client_id as link,
 from database.clients
-order by total_active_deals desc
+order by data_uploaded_tibs_30d desc
 limit 400
 ```
 
