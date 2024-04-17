@@ -20,7 +20,7 @@ select
   country,
 from storage_providers
 order by total_active_data_uploaded_tibs desc
-limit 2500
+limit 2000
 ```
 
 <DataTable
