@@ -8,7 +8,9 @@
 <EvidenceDefaultLayout
     {data}
     title="Filecoin Pulse"
-    fullWidth="false"
+    builtWithEvidence={false}
+    fullWidth={true}
+    maxWidth="2000"
     githubRepo="https://github.com/davidgasquez/filecoin-data-portal/"
     xProfile="https://twitter.com/davidgasquez/"
 >

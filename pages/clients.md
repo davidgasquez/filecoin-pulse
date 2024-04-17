@@ -40,7 +40,7 @@ select
   '/client/' || client_id as link,
 from database.clients
 order by data_uploaded_tibs_30d desc
-limit 400
+limit 300
 ```
 
 ## Explorer
