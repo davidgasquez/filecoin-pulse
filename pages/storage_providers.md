@@ -13,13 +13,13 @@ select
   provider_id,
   total_deals,
   total_data_uploaded_tibs,
-  score,
+  filrep_score,
   country,
-  uptime_average,
+  filrep_uptime_average,
   is_reachable
 from storage_providers
 order by total_data_uploaded_tibs desc
-limit 1000
+-- limit 1000
 ```
 
 <DataTable

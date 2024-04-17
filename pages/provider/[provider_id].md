@@ -114,13 +114,13 @@ where provider_id = '${params.provider_id}'
 
 <BigValue
   data={filtered_provider_info}
-  value=uptime_average
-  title="Uptime Average"
+  value=filrep_uptime_average
+  title="FilRepUptime Average"
 />
 
 <BigValue
   data={filtered_provider_info}
-  value=score
+  value=filrep_score
   title="FilRep Score"
 />
 
@@ -184,3 +184,42 @@ where provider_id = '${params.provider_id}'
 />
 
 </Grid>
+
+<!-- ## Deals
+
+```sql provider_deals
+select
+  *
+from 'https://filecoindataportal.davidgasquez.com/data/filecoin_state_market_deals.parquet'
+where provider_id = '${params.provider_id}'
+order by sector_start_at
+limit 10;
+```
+
+
+<DataTable
+  data={provider_deals}
+  search=true
+  rowShading=true
+  rowLines=false
+  rows=10
+  downloadable=true
+/> -->
+
+## Retrievals
+
+```sql provider_retrievals
+select
+  date,
+  success_rate as success_rate
+from storage_providers_retrievals
+where miner_id = '${params.provider_id}'
+order by date desc
+```
+
+<LineChart
+  data={provider_retrievals}
+  x=date
+  y=success_rate
+  title="Retrieval Success Rate (Spark)"
+/>
