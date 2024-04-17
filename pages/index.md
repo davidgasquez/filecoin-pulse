@@ -39,8 +39,8 @@ select
   quality_adjusted_power_pibs - lag(quality_adjusted_power_pibs, 7) over (order by date) as quality_adjusted_power_pibs_7_day_ago,
   verified_data_power_pibs,
   verified_data_power_pibs - lag(verified_data_power_pibs, 7) over (order by date) as verified_data_power_pibs_7_day_ago,
-  network_utilization_percentage,
-  network_utilization_percentage - lag(network_utilization_percentage, 7) over (order by date) as network_utilization_percentage_7_day_ago
+  network_utilization_ratio,
+  network_utilization_ratio - lag(network_utilization_ratio, 7) over (order by date) as network_utilization_ratio_7_day_ago
 from daily_metrics
 where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
@@ -122,8 +122,8 @@ order by date desc
 <BigValue
   title="Network Utilization"
   data={daily_metrics}
-  value=network_utilization_percentage
-  comparison=network_utilization_percentage_7_day_ago
+  value=network_utilization_ratio
+  comparison=network_utilization_ratio_7_day_ago
   comparisonTitle="from last week"
 />
 
@@ -162,8 +162,6 @@ order by date desc
     />
   </Tab>
 </Tabs>
-
-
 
 ## Users
 
@@ -210,12 +208,11 @@ order by date desc
   connectGroup="power"
 />
 
-
 </Grid>
 
 <AreaChart
   data={daily_metrics}
-  y="network_utilization_percentage"
+  y="network_utilization_ratio"
   title="Network Utilization"
 />
 
