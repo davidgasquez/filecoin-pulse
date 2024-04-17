@@ -15,6 +15,7 @@ select
 from allocators
 where is_active
 ```
+
 <Grid cols=3>
 
 <BigValue

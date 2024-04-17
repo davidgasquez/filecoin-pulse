@@ -4,7 +4,6 @@ title: Storage Providers
 
 _A quick view into Filecoin Storage Providers Metrics_
 
-
 ## Top Providers
 
 ```sql providers
@@ -21,7 +20,7 @@ select
   country,
 from storage_providers
 order by total_active_data_uploaded_tibs desc
-limit 500
+limit 2500
 ```
 
 <DataTable

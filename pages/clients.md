@@ -19,7 +19,6 @@ from clients
   title="Filecoin Clients"
 />
 
-
 <BigValue
   data={client_stats}
   value=total_remaining_datacap_pibs
@@ -40,7 +39,7 @@ select
   '/client/' || client_id as link,
 from database.clients
 order by data_uploaded_tibs_30d desc
-limit 300
+limit 500
 ```
 
 ## Explorer

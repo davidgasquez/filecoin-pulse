@@ -1,6 +1,5 @@
 # {$page.params.allocator_id}
 
-
 ```sql filtered_allocator_info
 select
   *
@@ -110,7 +109,6 @@ order by height_at desc
   <Column id=is_data_public/>
   <Column id=is_from_autoverifier/>
 </DataTable>
-
 
 <Histogram
   data={datacap_allowances}

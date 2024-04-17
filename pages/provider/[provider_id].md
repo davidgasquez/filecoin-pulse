@@ -6,13 +6,13 @@
   dates=date
 />
 
-
 ```sql filtered_provider_info
 select
   *
 from storage_providers
 where provider_id = '${params.provider_id}'
 ```
+
 <Grid cols=4>
 
 <BigValue
@@ -179,7 +179,6 @@ where provider_id = '${params.provider_id}'
   value=stddev_spark_retrieval_success_rate
 />
 
-
 </Grid>
 
 ## Daily Deals Metrics
@@ -212,7 +211,6 @@ order by date desc, client_id asc
   rows=10
   downloadable=true
 />
-
 
 ## Provider Power
 
