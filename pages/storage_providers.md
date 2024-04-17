@@ -12,13 +12,15 @@ select
   '/provider/' || provider_id as link,
   provider_id,
   total_deals,
+  total_active_deals,
   total_data_uploaded_tibs,
-  filrep_score,
+  total_active_data_uploaded_tibs,
+  total_unique_clients,
+  first_deal_at,
+  last_deal_at,
   country,
-  filrep_uptime_average,
-  is_reachable
 from storage_providers
-order by total_data_uploaded_tibs desc
+order by total_active_data_uploaded_tibs desc
 -- limit 1000
 ```
 
@@ -26,5 +28,5 @@ order by total_data_uploaded_tibs desc
   data={providers}
   link=link
   search=true
-  rows=20
+  rows=30
 />

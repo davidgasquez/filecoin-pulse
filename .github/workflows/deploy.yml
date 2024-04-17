@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
           export NODE_OPTIONS="--max-old-space-size=8192"
-          npm run sources && npm run build
+          npm run sources && npm run build:strict
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:

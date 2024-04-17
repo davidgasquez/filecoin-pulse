@@ -13,7 +13,7 @@ select
 from storage_providers
 where provider_id = '${params.provider_id}'
 ```
-<Grid cols=3>
+<Grid cols=4>
 
 <BigValue
   data={filtered_provider_info}
@@ -124,6 +124,57 @@ where provider_id = '${params.provider_id}'
   title="FilRep Score"
 />
 
+<BigValue
+  data={filtered_provider_info}
+  value=rewards
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=win_count
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=win_count
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=blocks_mined
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=fee_debt
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=provider_collateral
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=pre_commit_deposits
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=locked_funds
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=balance
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=initial_pledge
+/>
+
+
 </Grid>
 
 ## Daily Deals Metrics
@@ -174,6 +225,8 @@ where provider_id = '${params.provider_id}'
   x=date
   y=raw_power_pibs
   title="Raw Power (PiBs)"
+  emptySet=pass
+  emptyMessage="No Power Data"
 />
 
 <AreaChart
@@ -181,30 +234,11 @@ where provider_id = '${params.provider_id}'
   x=date
   y=quality_adjusted_power_pibs
   title="Quality Adjusted Power (PiBs)"
+  emptySet=pass
+  emptyMessage="No Power Data"
 />
 
 </Grid>
-
-<!-- ## Deals
-
-```sql provider_deals
-select
-  *
-from 'https://filecoindataportal.davidgasquez.com/data/filecoin_state_market_deals.parquet'
-where provider_id = '${params.provider_id}'
-order by sector_start_at
-limit 10;
-```
-
-
-<DataTable
-  data={provider_deals}
-  search=true
-  rowShading=true
-  rowLines=false
-  rows=10
-  downloadable=true
-/> -->
 
 ## Retrievals
 
@@ -213,7 +247,7 @@ select
   date,
   success_rate as success_rate
 from storage_providers_retrievals
-where miner_id = '${params.provider_id}'
+where provider_id = '${params.provider_id}'
 order by date desc
 ```
 
@@ -222,4 +256,6 @@ order by date desc
   x=date
   y=success_rate
   title="Retrieval Success Rate (Spark)"
+  emptySet=pass
+  emptySetText="No Retrievals"
 />

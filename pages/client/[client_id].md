@@ -77,8 +77,7 @@ where client_id = '${params.client_id}'
 
 <BigValue
   data={filtered_client}
-  value=verifier_id
-  title="Verifier"
+  value=allocator_id
 />
 
 <BigValue
