@@ -126,22 +126,17 @@ where provider_id = '${params.provider_id}'
 
 <BigValue
   data={filtered_provider_info}
-  value=rewards
+  value=total_rewards_fil
 />
 
 <BigValue
   data={filtered_provider_info}
-  value=win_count
+  value=total_blocks_mined
 />
 
 <BigValue
   data={filtered_provider_info}
-  value=win_count
-/>
-
-<BigValue
-  data={filtered_provider_info}
-  value=blocks_mined
+  value=total_win_count
 />
 
 <BigValue
@@ -172,6 +167,16 @@ where provider_id = '${params.provider_id}'
 <BigValue
   data={filtered_provider_info}
   value=initial_pledge
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=mean_spark_retrieval_success_rate
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=stddev_spark_retrieval_success_rate
 />
 
 
