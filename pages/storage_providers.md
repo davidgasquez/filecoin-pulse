@@ -19,6 +19,7 @@ select
   last_deal_at,
   country,
 from storage_providers
+where last_deal_at > '2023-01-01'
 order by total_active_data_uploaded_tibs desc
 limit 2000
 ```

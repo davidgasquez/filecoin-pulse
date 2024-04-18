@@ -7,7 +7,7 @@ from allocators
 where allocator_id = '${params.allocator_id}'
 ```
 
-<Grid cols=3>
+<Grid cols=4>
 
 <BigValue
   data={filtered_allocator_info}
@@ -20,6 +20,13 @@ where allocator_id = '${params.allocator_id}'
   value=allocator_organization_name
   title="Organization"
 />
+
+<BigValue
+  data={filtered_allocator_info}
+  value=is_multisig
+  title="Is Multisig?"
+/>
+
 
 <BigValue
   data={filtered_allocator_info}
@@ -39,11 +46,6 @@ where allocator_id = '${params.allocator_id}'
   title="Current Allowance (TiBs)"
 />
 
-<BigValue
-  data={filtered_allocator_info}
-  value=is_multisig
-  title="Is Multisig?"
-/>
 
 <BigValue
   data={filtered_allocator_info}
@@ -63,9 +65,62 @@ where allocator_id = '${params.allocator_id}'
   title="Received Datacap Change"
 />
 
+<BigValue
+  data={filtered_allocator_info}
+  value=location
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=metapathway_type
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=associated_org_addresses
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=standardized
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=target_clients
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=required_sps
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=required_replicas
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=data_types
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=12m_requested
+/>
+
+<BigValue
+  data={filtered_allocator_info}
+  value=github_handles
+/>
+
+<!-- TODO: Add POC and Pathway-->
+<!-- TODO: Figure out a way to link back to the application -->
+
 </Grid>
 
-<!--
+
 ```sql datacap_balance_history
 select
   updated_at::date as day,
@@ -84,7 +139,7 @@ order by updated_at desc
   y=datacap
   step=true
   emptySet=pass
-/> -->
+/>
 
 ## Datacap Allocations
 
@@ -109,6 +164,26 @@ order by height_at desc
   <Column id=is_data_public/>
   <Column id=is_from_autoverifier/>
 </DataTable>
+
+
+### Client Details
+
+```sql allowances_client_details
+select
+  *,
+  '/client/' || client_id as link,
+from clients
+where client_id in (select client_id from (select *from clients_datacap_allowances where allocator_id = '${params.allocator_id}'))
+```
+
+<DataTable
+  data={allowances_client_details}
+  emptySet=pass
+  emptyMessage="No Clients"
+  link=link
+/>
+
+## Allocations Histogram Distribution
 
 <Histogram
   data={datacap_allowances}

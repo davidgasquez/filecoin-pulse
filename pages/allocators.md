@@ -66,10 +66,11 @@ where is_active
   start=2021-01-01
 />
 
+## Client Datacap Allocations
+
 ```sql allocations
 select
   cast(time_bucket(interval '1 week', cast(height_at as date)) as string) as date,
-  -- cast(height_at as date) as date,
   n.allocator_organization_name as allocator_organization_name,
   sum(a.allowance_tibs) as allowance_tibs
 from clients_datacap_allowances as a
@@ -88,6 +89,41 @@ order by 1 asc
   series=allocator_organization_name
   sort=false
 />
+
+## Allocators' Datacap Allocations
+
+```sql allocators_allowances
+select
+  cast(time_bucket(interval '1 week', cast(height_at as date)) as string) as date,
+  sum(a.allowance_tibs / 1024) as allowance_pibs,
+  -- cumulative sum
+  sum(sum(a.allowance_tibs)) over (order by date rows between unbounded preceding and current row) / 1024 as cumulative_allowance_pibs
+from allocators_datacap_allowances as a
+where 1=1
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+group by 1
+order by 1 asc
+```
+
+<Grid cols=2>
+
+<BarChart
+  data={allocators_allowances}
+  x=date
+  y=allowance_pibs
+  sort=false
+  connectGroup="ada"
+/>
+
+<LineChart
+  data={allocators_allowances}
+  x=date
+  y=cumulative_allowance_pibs
+  sort=false
+  connectGroup="ada"
+/>
+
+</Grid>
 
 ## Explorer
 
