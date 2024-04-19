@@ -19,9 +19,9 @@ select
   last_deal_at,
   country,
 from storage_providers
-where last_deal_at > '2023-01-01'
+where 1 = 1
+  and (last_deal_at > '2023-01-01' or data_uploaded_tibs_30d > 0)
 order by total_active_data_uploaded_tibs desc
-limit 2000
 ```
 
 <DataTable

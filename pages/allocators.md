@@ -148,3 +148,47 @@ order by verified_clients_count desc
   rows=30
   downloadable=true
 />
+
+## Country Distribution
+
+```sql country_distribution
+select
+  location,
+  count(distinct allocator_id) as allocators,
+  sum(current_allowance_tibs) as current_allowance_tibs,
+  sum("12m_requested"::numeric) as requested_tibs,
+from allocators
+where is_active
+group by 1
+```
+
+<Grid cols=3>
+
+<BarChart
+  data={country_distribution}
+  x=location
+  y=allocators
+  connectGroup=country
+  labels=true
+  title="Allocators by Country"
+/>
+
+<BarChart
+  data={country_distribution}
+  x=location
+  y=current_allowance_tibs
+  connectGroup=country
+  labels=true
+  title="Current Allowance by Country"
+/>
+
+<BarChart
+  data={country_distribution}
+  x=location
+  y=requested_tibs
+  connectGroup=country
+  labels=true
+  title="Requested Data by Country"
+/>
+
+</Grid>

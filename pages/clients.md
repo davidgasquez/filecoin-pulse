@@ -38,8 +38,9 @@ select
   total_active_data_uploaded_tibs,
   '/client/' || client_id as link,
 from database.clients
+where 1=1
+  and (data_uploaded_tibs_30d > 0 or last_deal_at > '2023-01-01')
 order by data_uploaded_tibs_30d desc
-limit 500
 ```
 
 ## Explorer
