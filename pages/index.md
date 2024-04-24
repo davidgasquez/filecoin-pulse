@@ -6,8 +6,7 @@ _A view into Filecoin Metrics. Powered by the [Filecoin Data Portal](https://git
 
 <DateRange
   name=range
-  data={daily_metrics}
-  dates=date
+  start=2020-09-01
 />
 
 ```sql daily_metrics

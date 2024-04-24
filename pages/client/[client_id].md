@@ -2,8 +2,7 @@
 
 <DateRange
   name=range
-  data={filtered_client_metrics}
-  dates=date
+  start=2020-09-01
 />
 
 ```sql filtered_client

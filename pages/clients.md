@@ -41,6 +41,7 @@ from database.clients
 where 1=1
   and (data_uploaded_tibs_30d > 0 or last_deal_at > '2023-06-01')
 order by data_uploaded_tibs_30d desc
+limit 500
 ```
 
 ## Explorer
