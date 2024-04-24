@@ -4,6 +4,12 @@ title: Allocators
 
 _A view into Filecoin Allocators Metrics_
 
+<DateRange
+  name=range
+  start=2021-01-01
+/>
+
+
 ```sql allocators_stats
 select
   sum(initial_allowance_tibs / 1024) as total_initial_allowance_pibs,
@@ -13,7 +19,8 @@ select
   count(distinct allocator_id) filter (created_at > current_date() - interval '30 days') as new_allocators_30d,
   count(distinct allocator_id) filter (is_multisig) as total_multisig_allocators,
 from allocators
-where is_active
+where 1=1
+  and created_at between '${inputs.range.start}' and '${inputs.range.end}'
 ```
 
 <Grid cols=3>
@@ -59,13 +66,6 @@ where is_active
 
 </Grid>
 
-<DateRange
-  name=range
-  data={allocations}
-  dates=date
-  start=2021-01-01
-/>
-
 ## Client Datacap Allocations
 
 ```sql allocations
@@ -88,6 +88,7 @@ order by 1 asc
   y=allowance_tibs
   series=allocator_organization_name
   sort=false
+  emptySet=pass
 />
 
 ## Allocators' Datacap Allocations
@@ -113,6 +114,7 @@ order by 1 asc
   y=allowance_pibs
   sort=false
   connectGroup="ada"
+  emptySet=pass
 />
 
 <LineChart
@@ -121,6 +123,7 @@ order by 1 asc
   y=cumulative_allowance_pibs
   sort=false
   connectGroup="ada"
+  emptySet=pass
 />
 
 </Grid>
@@ -133,9 +136,12 @@ select
   left(concat(allocator_organization_name, ' (', allocator_name, ')'), 60) as allocator,
   current_allowance_tibs / 1024 as current_allowance_pibs,
   verified_clients_count,
+  created_at,
   '/allocator/' || allocator_id as link,
 from allocators
-where is_active
+where 1 = 1
+  and is_active
+  and created_at between '${inputs.range.start}' and '${inputs.range.end}'
 order by verified_clients_count desc
 ```
 
@@ -145,7 +151,7 @@ order by verified_clients_count desc
   search=true
   rowShading=true
   rowLines=false
-  rows=30
+  rows=20
   downloadable=true
 />
 
@@ -160,7 +166,9 @@ select
   sum(initial_allowance_tibs) - sum(current_allowance_tibs) as used_allowance_tibs,
   sum("12m_requested"::numeric) as requested_tibs,
 from allocators
-where is_active
+where 1 = 1
+  and is_active
+  and created_at between '${inputs.range.start}' and '${inputs.range.end}'
 group by 1
 ```
 

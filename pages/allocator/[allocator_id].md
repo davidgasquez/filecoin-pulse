@@ -145,7 +145,8 @@ order by updated_at desc
 
 ```sql datacap_allowances
 select
-  *
+  *,
+  split_part(split_part(audit_trail, '/', -1), '/', 1) as allowance_number
 from clients_datacap_allowances
 where allocator_id = '${params.allocator_id}'
 order by height_at desc
@@ -156,13 +157,13 @@ order by height_at desc
   emptySet=pass
   emptyMessage="No Datacap Allocations"
 >
-  <Column id=audit_trail contentType=link linkLabel=allowance_id title="Allowance"/>
-  <Column id=height_at/>
+  <Column id=audit_trail contentType=link linkLabel=allowance_number title="Allowance GitHub Number"/>
   <Column id=client_id/>
-  <Column id=message_cid/>
   <Column id=allowance_tibs/>
+  <Column id=height_at title="Timestamp"/>
   <Column id=is_data_public/>
   <Column id=is_from_autoverifier/>
+  <Column id=message_cid/>
 </DataTable>
 
 
@@ -189,7 +190,7 @@ where client_id in (select client_id from (select *from clients_datacap_allowanc
   data={datacap_allowances}
   x=allowance_tibs
   xAxisTitle="Datacap Allocation Size"
-  emptySet=pass
   title="Datacap Allocation Size Distribution"
+  emptySet=pass
   emptyMessage="No Datacap Allocations"
 />
