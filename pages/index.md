@@ -9,7 +9,7 @@ _A view into Filecoin Metrics. Powered by the [Filecoin Data Portal](https://git
   start=2020-09-01
 />
 
-```sql daily_metrics
+```sql metrics
 select
   date,
   onboarded_data_pibs,
@@ -51,7 +51,7 @@ order by date desc
 
 <BigValue
   title="Data on Active Deals"
-  data={daily_metrics}
+  data={metrics}
   value=data_on_active_deals_pibs
   comparison=data_on_active_deals_pibs_7_day_ago
   comparisonTitle="from last week"
@@ -60,7 +60,7 @@ order by date desc
 
 <BigValue
   title="Unique Data on Active Deals"
-  data={daily_metrics}
+  data={metrics}
   value=unique_data_on_active_deals_pibs
   comparison=unique_data_on_active_deals_pibs_7_day_ago
   comparisonTitle="from last week"
@@ -69,7 +69,7 @@ order by date desc
 
 <BigValue
   title="Active Deals"
-  data={daily_metrics}
+  data={metrics}
   value=active_deals
   comparison=active_deals_7_day_ago
   comparisonTitle="from last week"
@@ -77,7 +77,7 @@ order by date desc
 
 <BigValue
   title="Clients with Active Deals"
-  data={daily_metrics}
+  data={metrics}
   value=clients_with_active_deals
   comparison=clients_with_active_deals_7_day_ago
   comparisonTitle="from last week"
@@ -85,7 +85,7 @@ order by date desc
 
 <BigValue
   title="Providers with Active Deals"
-  data={daily_metrics}
+  data={metrics}
   value=providers_with_active_deals
   comparison=providers_with_active_deals_7_day_ago
   comparisonTitle="from last week"
@@ -93,7 +93,7 @@ order by date desc
 
 <BigValue
   title="Raw Power"
-  data={daily_metrics}
+  data={metrics}
   value=raw_power_pibs
   comparison=raw_power_pibs_7_day_ago
   comparisonTitle="from last week"
@@ -102,7 +102,7 @@ order by date desc
 
 <BigValue
   title="Quality Adjusted Power"
-  data={daily_metrics}
+  data={metrics}
   value=quality_adjusted_power_pibs
   comparison=quality_adjusted_power_pibs_7_day_ago
   comparisonTitle="from last week"
@@ -111,7 +111,7 @@ order by date desc
 
 <BigValue
   title="Verified Data Power"
-  data={daily_metrics}
+  data={metrics}
   value=verified_data_power_pibs
   comparison=verified_data_power_pibs_7_day_ago
   comparisonTitle="from last week"
@@ -120,7 +120,7 @@ order by date desc
 
 <BigValue
   title="Network Utilization"
-  data={daily_metrics}
+  data={metrics}
   value=network_utilization_ratio
   comparison=network_utilization_ratio_7_day_ago
   comparisonTitle="from last week"
@@ -131,7 +131,7 @@ order by date desc
 # Deals
 
 <LineChart
-  data={daily_metrics}
+  data={metrics}
   y=onboarded_data_pibs
   y2=cumulative_onboarded_data_pibs
   title="Daily Onboarded Data"
@@ -139,7 +139,7 @@ order by date desc
 />
 
 <LineChart
-  data={daily_metrics}
+  data={metrics}
   y=deals
   y2=cumulative_deals
   title="Daily New Deals"
@@ -149,14 +149,14 @@ order by date desc
 <Tabs>
   <Tab label="Data on Active Deals">
     <AreaChart
-      data={daily_metrics}
+      data={metrics}
       y=data_on_active_deals_pibs
       y2=active_deals
     />
   </Tab>
   <Tab label="Active Deals">
     <AreaChart
-      data={daily_metrics}
+      data={metrics}
       y=active_deals
     />
   </Tab>
@@ -165,19 +165,19 @@ order by date desc
 ## Users
 
 <LineChart
-  data={daily_metrics}
+  data={metrics}
   y={["unique_deal_making_clients", "unique_deal_making_providers"]}
   title = "Daily Unique Users Participating in Deals"
 />
 
 <LineChart
-  data={daily_metrics}
+  data={metrics}
   y={["clients_with_active_deals", "providers_with_active_deals"]}
   title="Users with Active Deals"
 />
 
 <BarChart
-  data={daily_metrics}
+  data={metrics}
   y={["new_client_ids", "new_provider_ids"]}
   title="New Users"
 />
@@ -187,21 +187,21 @@ order by date desc
 <Grid cols=3>
 
 <AreaChart
-  data={daily_metrics}
+  data={metrics}
   y="raw_power_pibs"
   title="Network Raw Power"
   connectGroup="power"
 />
 
 <AreaChart
-  data={daily_metrics}
+  data={metrics}
   y={["verified_data_power_pibs"]}
   title="Network Verified Data Power"
   connectGroup="power"
 />
 
 <AreaChart
-  data={daily_metrics}
+  data={metrics}
   y={["quality_adjusted_power_pibs"]}
   title="Network Quality Adjusted Power"
   connectGroup="power"
@@ -210,9 +210,9 @@ order by date desc
 </Grid>
 
 <AreaChart
-  data={daily_metrics}
+  data={metrics}
   y="network_utilization_ratio"
   title="Network Utilization"
 />
 
-This page was last updated on <Value data = {daily_metrics} column = date row=0 />.
+This page was last updated on <Value data = {metrics} column = date row=0 />.
