@@ -32,7 +32,6 @@ limit 2000
   rows=20
 />
 
-
 ## Retrievals
 
 ```sql retrieval_stats
@@ -68,7 +67,6 @@ from storage_providers_retrievals
 
 </Grid>
 
-
 ### Providers Retrieval Leaderboard
 
 ```sql top_retrieval_providers
@@ -91,21 +89,21 @@ order by success_rate desc
 ```sql cdf_spark
 WITH ranked_data AS (
   SELECT
-    mean_spark_retrieval_success_rate,
-    ROW_NUMBER() OVER (ORDER BY mean_spark_retrieval_success_rate) AS row_num,
+    mean_spark_retrieval_success_rate_7d,
+    ROW_NUMBER() OVER (ORDER BY mean_spark_retrieval_success_rate_7d) AS row_num,
     COUNT(*) OVER () AS total_rows
   FROM
     storage_providers
   WHERE
-    mean_spark_retrieval_success_rate IS NOT NULL
+    mean_spark_retrieval_success_rate_7d IS NOT NULL
 )
 SELECT
-  mean_spark_retrieval_success_rate,
+  mean_spark_retrieval_success_rate_7d,
   (row_num / total_rows::FLOAT) AS cdf
 FROM
   ranked_data
 ORDER BY
-  mean_spark_retrieval_success_rate
+  mean_spark_retrieval_success_rate_7d
 ```
 
 ### Providers Retrieval Success Rate CDF
@@ -114,7 +112,7 @@ Cumulative Distribution Function (CDF) of the average Spark Retrieval Success Ra
 
 <LineChart
   data={cdf_spark}
-  x=mean_spark_retrieval_success_rate
+  x=mean_spark_retrieval_success_rate_7d
   y=cdf
   yMax=1
   yMin=0

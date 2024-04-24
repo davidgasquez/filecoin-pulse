@@ -170,12 +170,12 @@ where provider_id = '${params.provider_id}'
 
 <BigValue
   data={filtered_provider_info}
-  value=mean_spark_retrieval_success_rate
+  value=mean_spark_retrieval_success_rate_7d
 />
 
 <BigValue
   data={filtered_provider_info}
-  value=stddev_spark_retrieval_success_rate
+  value=stddev_spark_retrieval_success_rate_7d
 />
 
 </Grid>
