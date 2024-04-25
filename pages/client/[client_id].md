@@ -100,15 +100,64 @@ where 1=1
 order by date desc, provider_id asc
 ```
 
-<DataTable
-  data={filtered_client_metrics}
-/>
-
-## Daily Deals Metrics
+## Daily Data Onboarding
 
 <BarChart
   data={filtered_client_metrics}
   y=onboarded_data_tibs
   series=provider_id
   title="Onboarded Data (TiBs)"
+/>
+
+## Provider's Details
+
+```sql filtered_client_providers
+with client_provider_metrics as (
+select
+  provider_id,
+  sum(deals) as deals,
+  sum(onboarded_data_tibs) as onboarded_data_tibs,
+  count(distinct date) as days_with_deals,
+  max(date) as last_deal_at,
+  min(date) as first_deal_at
+from deals_metrics
+where 1=1
+  and client_id = '${params.client_id}'
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+group by provider_id
+)
+
+select
+  p.provider_id,
+  p.deals,
+  p.onboarded_data_tibs,
+  p.days_with_deals,
+  deals / sp.total_deals as client_provider_deal_share,
+  onboarded_data_tibs / sp.total_data_uploaded_tibs as client_provider_data_share,
+  sp.mean_spark_retrieval_success_rate_7d,
+  p.first_deal_at,
+  p.last_deal_at,
+  sp.total_unique_clients,
+  sp.raw_power_pibs,
+  sp.quality_adjusted_power_pibs,
+  sp.country,
+  sp.provider_name,
+  sp.balance,
+  sp.locked_funds,
+  sp.provider_collateral,
+  '/provider/' || p.provider_id as link,
+from client_provider_metrics p
+left join storage_providers sp on p.provider_id = sp.provider_id
+order by onboarded_data_tibs desc
+```
+
+
+<DataTable
+  data={filtered_client_providers}
+  emptySet=pass
+  emptyMessage="No Providers"
+  link=link
+  rowShading=true
+  rowLines=false
+  downloadable=true
 />
