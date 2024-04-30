@@ -109,7 +109,7 @@ order by date desc, provider_id asc
   title="Onboarded Data (TiBs)"
 />
 
-## Provider's Details
+## Client Interactions with Storage Providers
 
 ```sql filtered_client_providers
 with client_provider_metrics as (
@@ -150,7 +150,6 @@ from client_provider_metrics p
 left join storage_providers sp on p.provider_id = sp.provider_id
 order by onboarded_data_tibs desc
 ```
-
 
 <DataTable
   data={filtered_client_providers}

@@ -4,7 +4,7 @@ title: Storage Providers
 
 _A quick view into Filecoin Storage Providers Metrics_
 
-## Top Providers
+## Explorer
 
 ```sql providers
 select
@@ -30,6 +30,9 @@ limit 2000
   link=link
   search=true
   rows=20
+  rowShading=true
+  rowLines=false
+  downloadable=true
 />
 
 ## Retrievals
@@ -53,6 +56,7 @@ from storage_providers_retrievals
 <BigValue
   data={retrieval_stats}
   value=avg_success_rate
+  fmt='0.00%'
 />
 
 <BigValue
@@ -63,6 +67,7 @@ from storage_providers_retrievals
 <BigValue
   data={retrieval_stats}
   value=providers_with_success_rate
+  fmt='0.00%'
 />
 
 </Grid>
@@ -114,6 +119,9 @@ Cumulative Distribution Function (CDF) of the average Spark Retrieval Success Ra
   data={cdf_spark}
   x=mean_spark_retrieval_success_rate_7d
   y=cdf
-  yMax=1
   yMin=0
+  yMax=1
+  handleMissing=connect
+  yFmt='0%'
+  emptySet=pass
 />

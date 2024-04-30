@@ -124,6 +124,7 @@ order by date desc
   value=network_utilization_ratio
   comparison=network_utilization_ratio_7_day_ago
   comparisonTitle="from last week"
+  fmt='00.0%'
 />
 
 </Grid>

@@ -180,7 +180,7 @@ where provider_id = '${params.provider_id}'
 
 </Grid>
 
-## Daily Deals Metrics
+## Daily Data Onboarding
 
 ```sql filtered_provider_metrics
 select
@@ -199,65 +199,135 @@ order by date desc, client_id asc
   data={filtered_provider_metrics}
   y=onboarded_data_tibs
   series=client_id
-  title = "Onboarded Data (TiBs)"
+  title="Onboarded Data (TiBs)"
+  emptySet=pass
+  emptySetText="No Deals"
 />
 
-<DataTable
+<!-- <DataTable
   data={filtered_provider_metrics}
   search=true
   rowShading=true
   rowLines=false
   rows=10
   downloadable=true
+/> -->
+
+
+```sql spm
+select
+  *
+from storage_providers_metrics
+where 1=1
+  and provider_id = '${params.provider_id}'
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+```
+
+## Retrievals
+
+<LineChart
+  data={spm}
+  x=date
+  y=spark_retrieval_success_rate
+  title="Retrieval Success Rate (Spark)"
+  emptySet=pass
+  emptySetText="No Retrievals"
 />
 
 ## Provider Power
 
-```sql provider_power
-select
-  *
-from storage_providers_power
-where provider_id = '${params.provider_id}'
-```
-
 <Grid cols=2>
 
 <AreaChart
-  data={provider_power}
+  data={spm}
   x=date
   y=raw_power_pibs
   title="Raw Power (PiBs)"
   emptySet=pass
   emptyMessage="No Power Data"
+  connectGroup=power
 />
 
 <AreaChart
-  data={provider_power}
+  data={spm}
   x=date
   y=quality_adjusted_power_pibs
   title="Quality Adjusted Power (PiBs)"
   emptySet=pass
   emptyMessage="No Power Data"
+  connectGroup=power
 />
 
 </Grid>
 
-## Retrievals
-
-```sql provider_retrievals
-select
-  date,
-  success_rate as success_rate
-from storage_providers_retrievals
-where provider_id = '${params.provider_id}'
-order by date desc
-```
+## Funds
 
 <LineChart
-  data={provider_retrievals}
+  data={spm}
   x=date
-  y=success_rate
-  title="Retrieval Success Rate (Spark)"
+  y={["balance", "locked_funds", "initial_pledge", "fee_debt", "initial_pledge", "rewards"]}
   emptySet=pass
-  emptySetText="No Retrievals"
+  emptyMessage="No Power Data"
+/>
+
+## Sector Onboarding
+
+<LineChart
+  data={spm}
+  x=date
+  y={["daily_sector_onboarding_count", "daily_sector_onboarding_raw_power_tibs"]}
+  emptySet=pass
+  emptyMessage="No Power Data"
+/>
+
+## Sector Events
+
+<LineChart
+  data={spm}
+  x=date
+  y={["daily_new_active_terminated_raw_power_tibs", "daily_new_passive_terminated_raw_power_tibs", "daily_new_fault_raw_power_tibs", "daily_new_recover_raw_power_tibs", "daily_new_expire_raw_power_tibs", "daily_new_extend_raw_power_tibs", "daily_new_snap_raw_power_tibs"]}
+  emptySet=pass
+  emptyMessage="No Power Data"
+/>
+
+
+## Provider Interactions with Clients
+
+```sql filtered_client_providers
+with provider_clients as (
+select
+  client_id,
+  sum(deals) as deals,
+  sum(onboarded_data_tibs) as onboarded_data_tibs,
+  count(distinct date) as days_with_deals,
+  max(date) as last_deal_at,
+  min(date) as first_deal_at
+from deals_metrics
+where 1=1
+  and provider_id = '${params.provider_id}'
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+group by client_id
+)
+
+select
+  p.client_id,
+  p.deals,
+  p.onboarded_data_tibs,
+  p.days_with_deals,
+  p.first_deal_at,
+  p.last_deal_at,
+  '/client/' || p.client_id as link,
+from provider_clients p
+order by onboarded_data_tibs desc
+```
+
+
+<DataTable
+  data={filtered_client_providers}
+  emptySet=pass
+  emptyMessage="No Providers"
+  link=link
+  rowShading=true
+  rowLines=false
+  downloadable=true
 />
