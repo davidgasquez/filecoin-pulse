@@ -260,7 +260,7 @@ where 1=1
 
 </Grid>
 
-## Funds
+<!-- ## Funds
 
 <LineChart
   data={spm}
@@ -288,7 +288,7 @@ where 1=1
   y={["daily_new_active_terminated_raw_power_tibs", "daily_new_passive_terminated_raw_power_tibs", "daily_new_fault_raw_power_tibs", "daily_new_recover_raw_power_tibs", "daily_new_expire_raw_power_tibs", "daily_new_extend_raw_power_tibs", "daily_new_snap_raw_power_tibs"]}
   emptySet=pass
   emptyMessage="No Power Data"
-/>
+/> -->
 
 
 ## Provider Interactions with Clients
