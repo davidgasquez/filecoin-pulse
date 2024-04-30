@@ -22,7 +22,7 @@ from storage_providers
 where 1 = 1
   and (last_deal_at > '2023-06-01' or data_uploaded_tibs_30d > 0 or provider_name is not null)
 order by total_active_data_uploaded_tibs desc, data_uploaded_tibs_30d desc
-limit 2000
+limit 1000
 ```
 
 <DataTable
@@ -38,12 +38,21 @@ limit 2000
 ## Retrievals
 
 ```sql retrieval_stats
+with retrievals as (
+  select
+    provider_id,
+    spark_retrieval_success_rate
+  from storage_providers_metrics
+  where date = (select max(date) from storage_providers_metrics)
+)
+
 select
   count(distinct provider_id) as total_tested_providers,
-  avg(success_rate) as avg_success_rate,
-  count(distinct provider_id) filter (where success_rate > 0) as providers_with_success,
+  avg(spark_retrieval_success_rate) as avg_success_rate,
+  count(distinct provider_id) filter (where spark_retrieval_success_rate > 0) as providers_with_success,
   providers_with_success / total_tested_providers as providers_with_success_rate
-from storage_providers_retrievals
+from retrievals
+where spark_retrieval_success_rate is not null
 ```
 
 <Grid cols=2>
@@ -77,11 +86,11 @@ from storage_providers_retrievals
 ```sql top_retrieval_providers
 select
   provider_id,
-  success_rate,
+  spark_retrieval_success_rate,
   '/provider/' || provider_id as link,
-from storage_providers_retrievals
-where date = (select max(date) from storage_providers_retrievals) and success_rate > 0
-order by success_rate desc
+from storage_providers_metrics
+where date = (select max(date) from storage_providers_metrics) and spark_retrieval_success_rate > 0
+order by spark_retrieval_success_rate desc
 ```
 
 <DataTable
