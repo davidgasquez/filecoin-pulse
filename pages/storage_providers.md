@@ -42,8 +42,8 @@ with retrievals as (
   select
     provider_id,
     spark_retrieval_success_rate
-  from storage_providers_metrics
-  where date = (select max(date) from storage_providers_metrics)
+  from storage_providers_spark_retrievals
+  where date = (select max(date) from storage_providers_spark_retrievals)
 )
 
 select
@@ -88,8 +88,8 @@ select
   provider_id,
   spark_retrieval_success_rate,
   '/provider/' || provider_id as link,
-from storage_providers_metrics
-where date = (select max(date) from storage_providers_metrics) and spark_retrieval_success_rate > 0
+from storage_providers_spark_retrievals
+where date = (select max(date) from storage_providers_spark_retrievals) and spark_retrieval_success_rate > 0
 order by spark_retrieval_success_rate desc
 ```
 

@@ -214,10 +214,22 @@ order by date desc, client_id asc
 /> -->
 
 
-```sql spm
+```sql storage_provider_power
 select
-  *
-from storage_providers_metrics
+  date,
+  raw_power_pibs,
+  quality_adjusted_power_pibs
+from storage_providers_power
+where 1=1
+  and provider_id = '${params.provider_id}'
+  and date between '${inputs.range.start}' and '${inputs.range.end}'
+```
+
+```sql storage_provider_spark_retrievals
+select
+  date,
+  spark_retrieval_success_rate
+from storage_providers_spark_retrievals
 where 1=1
   and provider_id = '${params.provider_id}'
   and date between '${inputs.range.start}' and '${inputs.range.end}'
@@ -226,7 +238,7 @@ where 1=1
 ## Retrievals
 
 <LineChart
-  data={spm}
+  data={storage_provider_spark_retrievals}
   x=date
   y=spark_retrieval_success_rate
   title="Retrieval Success Rate (Spark)"
@@ -239,7 +251,7 @@ where 1=1
 <Grid cols=2>
 
 <AreaChart
-  data={spm}
+  data={storage_provider_power}
   x=date
   y=raw_power_pibs
   title="Raw Power (PiBs)"
@@ -249,7 +261,7 @@ where 1=1
 />
 
 <AreaChart
-  data={spm}
+  data={storage_provider_power}
   x=date
   y=quality_adjusted_power_pibs
   title="Quality Adjusted Power (PiBs)"
