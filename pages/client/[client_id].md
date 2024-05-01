@@ -155,7 +155,6 @@ order by onboarded_data_tibs desc
   data={filtered_client_providers}
   emptySet=pass
   emptyMessage="No Providers"
-  link=link
   rowShading=true
   rowLines=false
   downloadable=true
