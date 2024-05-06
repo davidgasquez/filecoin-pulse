@@ -97,7 +97,6 @@ order by 1 asc
 select
   cast(time_bucket(interval '1 week', cast(height_at as date)) as string) as date,
   sum(a.allowance_tibs / 1024) as allowance_pibs,
-  -- cumulative sum
   sum(sum(a.allowance_tibs)) over (order by date rows between unbounded preceding and current row) / 1024 as cumulative_allowance_pibs
 from allocators_datacap_allowances as a
 where 1=1
