@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:0-20-bullseye",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "evidence.evidence-vscode",
+        "svelte.svelte-vscode"
+      ]
+    }
+  }
+}

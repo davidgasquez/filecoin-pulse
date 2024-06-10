@@ -1,0 +1,51 @@
+on: [push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Pages
+    env:
+        EVIDENCE_SOURCE__database__filename: ${{ secrets.EVIDENCE_SOURCE }}
+        NODE_OPTIONS: "--max-old-space-size=8192"
+        FILEBASE_KEY: ${{ secrets.FILEBASE_KEY }}
+        FILEBASE_SECRET: ${{ secrets.FILEBASE_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ">=18.0.0"
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=8192"
+          npm run sources && npm run build
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: fbe814d4a37d3d3d7fcfeec0ab929ff6
+          projectName: filecoinpulse
+          directory: build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+      - name: Push to IPFS
+        uses: filebase/ipfs-action@master
+        id: ipfs
+        with:
+          path: build
+          service: filebase
+          pinName: filecoin-pulse
+          filebaseBucket: filecoin-data-portal
+          filebaseKey: ${{ secrets.FILEBASE_KEY }}
+          filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
+          key: filecoin-pulse-website
