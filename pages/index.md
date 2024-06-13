@@ -7,6 +7,7 @@ _A view into Filecoin Metrics. Powered by the [Filecoin Data Portal](https://git
 <DateRange
   name=range
   start=2020-09-01
+  defaultValue={'Last 90 Days'}
 />
 
 ```sql metrics
