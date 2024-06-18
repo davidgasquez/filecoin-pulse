@@ -184,6 +184,7 @@ select
   (initial_allowance_tibs - current_allowance_tibs) / 1024 as used_allowance_pibs,
   verified_clients_count,
   created_at,
+  allocator_address
 from allocators
 where 1 = 1
   and is_active
@@ -303,3 +304,30 @@ order by date desc
 />
 
 </Grid>
+
+## Allocators Growth
+
+The table below shows the top allocators by datacap allowance change in the last week and the week before.
+
+```sql top_allocators
+select
+  a.allocator_id,
+  n.allocator_organization_name as allocator_organization_name,
+  coalesce(sum(a.allowance_tibs / 1024) filter (where a.height_at > (select max(height_at) from clients_datacap_allowances) - interval '1 week'), 0) as allowance_pibs_last_week,
+  coalesce(sum(a.allowance_tibs / 1024) filter (
+    where a.height_at between (select max(height_at) from clients_datacap_allowances) - interval '2 weeks' and (select max(height_at) from clients_datacap_allowances) - interval '1 week'
+  ), 0) as allowance_pibs_2_weeks_ago,
+  allowance_pibs_last_week - allowance_pibs_2_weeks_ago as allowance_pibs_weekly_change,
+  '/allocator/' || a.allocator_id as link
+from clients_datacap_allowances as a
+left join allocators as n on n.allocator_id = a.allocator_id
+where 1=1
+  and n.is_active
+group by 1, 2
+order by 3 desc
+```
+
+<DataTable
+  data={top_allocators}
+  link=link
+/>
