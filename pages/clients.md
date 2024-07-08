@@ -48,9 +48,10 @@ select
   client_id,
   client_name,
   region,
-  total_active_deals,
+  total_active_deals as active_deals,
   data_uploaded_tibs_30d,
-  total_active_data_uploaded_tibs,
+  data_uploaded_tibs_6m,
+  total_active_data_uploaded_tibs as data_on_active_deals,
   '/client/' || client_id as link,
 from database.clients
 where 1=1
