@@ -28,7 +28,6 @@ from clients
   fmt='#,##0 \P\i\B\s'
 />
 
-
 <BigValue
   data={client_stats}
   value=clients_with_active_deals
@@ -50,12 +49,13 @@ select
   region,
   total_active_deals as active_deals,
   data_uploaded_tibs_30d,
-  data_uploaded_tibs_6m,
+  data_expired_tibs_30d,
   total_active_data_uploaded_tibs as data_on_active_deals,
+  allocator_id,
   '/client/' || client_id as link,
 from database.clients
 where 1=1
-  and (data_uploaded_tibs_30d > 0 or last_deal_at > '2023-06-01')
+  and (data_uploaded_tibs_30d > 0 or last_deal_at > '2023-08-01' or data_expired_tibs_30d > 0)
 order by data_uploaded_tibs_30d desc
 limit 500
 ```
