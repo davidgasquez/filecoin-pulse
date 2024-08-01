@@ -48,7 +48,13 @@ select
   total_address_count_1000 as total_address_count_with_at_least_1000,
   total_address_count_10000 as total_address_count_with_at_least_10000,
   total_address_count_100000 as total_address_count_with_at_least_100000,
-  total_address_count_1000000 as total_address_count_with_at_least_1000000
+  total_address_count_1000000 as total_address_count_with_at_least_1000000,
+  circulating_fil,
+  mined_fil,
+  vested_fil,
+  reserve_disbursed_fil,
+  locked_fil,
+  burnt_fil
 from daily_metrics
 where date between '${inputs.range.start}' and '${inputs.range.end}'
 order by date desc
@@ -237,5 +243,45 @@ order by date desc
   y="network_utilization_ratio"
   title="Network Utilization"
 />
+
+## Circulating Supply
+
+<Grid cols=2>
+  <AreaChart
+    data={metrics}
+    y="circulating_fil"
+    title="Circulating FIL"
+  />
+
+  <AreaChart
+    data={metrics}
+    y="mined_fil"
+    title="Mined FIL"
+  />
+
+  <AreaChart
+    data={metrics}
+    y="vested_fil"
+    title="Vested FIL"
+  />
+
+  <AreaChart
+    data={metrics}
+    y="reserve_disbursed_fil"
+    title="Reserve Disbursed FIL"
+  />
+
+  <AreaChart
+    data={metrics}
+    y="locked_fil"
+    title="Locked FIL"
+  />
+
+  <AreaChart
+    data={metrics}
+    y="burnt_fil"
+    title="Burnt FIL"
+  />
+</Grid>
 
 This page was last updated on <Value data = {metrics} column = date row=0 />.
