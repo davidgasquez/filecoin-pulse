@@ -140,12 +140,11 @@ select
   sp.total_unique_clients,
   sp.raw_power_pibs,
   sp.quality_adjusted_power_pibs,
-  sp.country,
   sp.provider_name,
   sp.balance,
   sp.locked_funds,
   sp.provider_collateral,
-  '/provider/' || p.provider_id as link,
+  -- '/provider/' || p.provider_id as link,
 from client_provider_metrics p
 left join storage_providers sp on p.provider_id = sp.provider_id
 order by onboarded_data_tibs desc

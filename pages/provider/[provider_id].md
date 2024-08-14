@@ -179,6 +179,22 @@ where provider_id = '${params.provider_id}'
   value=stddev_spark_retrieval_success_rate_7d
 />
 
+<BigValue
+  data={filtered_provider_info}
+  value=capacity_utilization_ratio
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=started_providing_power_at
+/>
+
+<BigValue
+  data={filtered_provider_info}
+  value=avg_data_uploaded_tibs_per_day
+/>
+
+
 </Grid>
 
 ## Daily Data Onboarding
@@ -294,12 +310,12 @@ select
   date,
   provider_id,
   daily_sector_onboarding_count,
-  daily_new_terminated_raw_power_tibs,
-  daily_new_fault_raw_power_tibs,
-  daily_new_recover_raw_power_tibs,
-  daily_new_expire_raw_power_tibs,
-  daily_new_extend_raw_power_tibs,
-  daily_new_snap_raw_power_tibs
+  daily_new_sector_terminated_raw_power_tibs,
+  daily_new_sector_fault_raw_power_tibs,
+  daily_new_sector_recover_raw_power_tibs,
+  daily_new_sector_expire_raw_power_tibs,
+  daily_new_sector_extend_raw_power_tibs,
+  daily_new_sector_snap_raw_power_tibs
 from storage_providers_sector_onboarding
 where 1=1
   and provider_id = '${params.provider_id}'
@@ -309,7 +325,7 @@ where 1=1
 <LineChart
   data={spso}
   x=date
-  y={["daily_sector_onboarding_count", "daily_new_terminated_raw_power_tibs", "daily_new_fault_raw_power_tibs", "daily_new_recover_raw_power_tibs", "daily_new_expire_raw_power_tibs", "daily_new_extend_raw_power_tibs", "daily_new_snap_raw_power_tibs"]}
+  y={["daily_sector_onboarding_count", "daily_new_sector_terminated_raw_power_tibs", "daily_new_sector_fault_raw_power_tibs", "daily_new_sector_recover_raw_power_tibs", "daily_new_sector_expire_raw_power_tibs", "daily_new_sector_extend_raw_power_tibs", "daily_new_sector_snap_raw_power_tibs"]}
 />
 
 ## Provider Interactions with Clients
@@ -337,7 +353,7 @@ select
   p.days_with_deals,
   p.first_deal_at,
   p.last_deal_at,
-  '/client/' || p.client_id as link,
+  -- '/client/' || p.client_id as link,
 from provider_clients p
 order by onboarded_data_tibs desc
 ```
