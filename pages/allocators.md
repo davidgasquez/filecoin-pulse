@@ -180,8 +180,10 @@ select
   '/allocator/' || allocator_id as link,
   metapathway_type,
   left(concat(allocator_organization_name, ' (', allocator_name, ')'), 60) as allocator,
+  initial_allowance_tibs / 1024 as initial_allowance_pibs,
   current_allowance_tibs / 1024 as current_allowance_pibs,
   (initial_allowance_tibs - current_allowance_tibs) / 1024 as used_allowance_pibs,
+  used_allowance_pibs / initial_allowance_pibs * 100 as used_allowance_percent,
   verified_clients_count,
   created_at,
   allocator_address
