@@ -46,14 +46,3 @@ jobs:
           directory: build
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-      - name: Push to IPFS
-        uses: filebase/ipfs-action@master
-        id: ipfs
-        with:
-          path: build
-          service: filebase
-          pinName: filecoin-pulse
-          filebaseBucket: filecoin-data-portal
-          filebaseKey: ${{ secrets.FILEBASE_KEY }}
-          filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
-          key: filecoin-pulse-website
