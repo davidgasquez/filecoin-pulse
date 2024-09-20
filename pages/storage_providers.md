@@ -26,7 +26,6 @@ from storage_providers
 where 1 = 1
   and (last_deal_at > '2023-06-01' or data_uploaded_tibs_30d > 0 or provider_name is not null)
 order by total_active_data_uploaded_tibs desc, data_uploaded_tibs_30d desc
-limit 500
 ```
 
 <DataTable

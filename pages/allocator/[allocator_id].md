@@ -187,7 +187,7 @@ from clients_datacap_allowances as cda
 left join clients on clients.client_id = cda.client_id
 where 1=1
   and cda.allocator_id = '${params.allocator_id}'
-  and cda.audio_trail is not null
+  and cda.audit_trail is not null
 order by height_at desc
 ```
 
