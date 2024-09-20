@@ -9,4 +9,5 @@ select
     daily_new_sector_extend_raw_power_tibs,
     daily_new_sector_snap_raw_power_tibs
 from filecoin_daily_storage_providers_metrics
+where date >= '2023-01-01'
 order by date desc

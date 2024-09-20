@@ -169,6 +169,7 @@ order by date desc
   emptySet=pass
 />
 
+<!--
 ## Client Datacap Allocations
 
 ```sql datacap_allowances
@@ -203,6 +204,7 @@ order by height_at desc
   <Column id=message_cid_link contentType=link linkLabel=message_cid title="Message"/>
 </DataTable>
 
+-->
 ### Client Details
 
 ```sql allowances_client_details
@@ -218,7 +220,7 @@ select
   total_active_unique_providers as providers_with_deals,
   current_datacap_tibs,
 from clients
-where client_id in (select client_id from (select *from clients_datacap_allowances where allocator_id = '${params.allocator_id}'))
+where client_id in (select client_id from (select * from clients_datacap_allowances where allocator_id = '${params.allocator_id}'))
 ```
 
 <DataTable
