@@ -133,11 +133,6 @@ where allocator_id = '${params.allocator_id}'
 
 <BigValue
   data={filtered_allocator_info}
-  value=poc_slack
-/>
-
-<BigValue
-  data={filtered_allocator_info}
   value=poc_github_user
 />
 
